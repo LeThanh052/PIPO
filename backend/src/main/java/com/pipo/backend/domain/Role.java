@@ -1,4 +1,4 @@
-package com.pipo.backend.entity;
+package com.pipo.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,13 +20,9 @@ public class Role extends BaseEntity {
     private String name;
 
     @Column(length = 20)
-    private String scope; 
+    private String scope;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "role_permissions",
-        joinColumns = @JoinColumn(name = "role_id"),
-        inverseJoinColumns = @JoinColumn(name = "permission_id")
-    )
+    @JoinTable(name = "role_permissions", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private Set<Permission> permissions;
 }

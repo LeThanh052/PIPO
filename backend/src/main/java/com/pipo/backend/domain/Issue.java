@@ -1,9 +1,11 @@
-package com.pipo.backend.entity;
+package com.pipo.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.Set;
+
+import com.pipo.backend.domain.User;
 
 @Entity
 @Table(name = "issues")
@@ -56,10 +58,6 @@ public class Issue extends BaseEntity {
     private LocalDate dueDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "issue_labels",
-        joinColumns = @JoinColumn(name = "issue_id"),
-        inverseJoinColumns = @JoinColumn(name = "label_id")
-    )
+    @JoinTable(name = "issue_labels", joinColumns = @JoinColumn(name = "issue_id"), inverseJoinColumns = @JoinColumn(name = "label_id"))
     private Set<Label> labels;
 }

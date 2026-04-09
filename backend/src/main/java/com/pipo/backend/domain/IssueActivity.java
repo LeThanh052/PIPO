@@ -1,4 +1,6 @@
-package com.pipo.backend.entity;
+package com.pipo.backend.domain;
+
+import com.pipo.backend.domain.User;
 
 import jakarta.persistence.*;
 import lombok.*;

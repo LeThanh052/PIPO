@@ -1,16 +1,17 @@
-package com.pipo.backend.entity;
+package com.pipo.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "workflows")
+@Table(name = "sprints")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Workflow extends BaseEntity {
+public class Sprint extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,12 +20,15 @@ public class Workflow extends BaseEntity {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @Column(length = 50)
+    @Column(length = 100)
     private String name;
 
-    @Column(name = "position")
-    private Integer position;
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     @Column(length = 20)
-    private String color;
+    private String status;
 }

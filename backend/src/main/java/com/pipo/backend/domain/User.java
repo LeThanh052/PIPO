@@ -1,40 +1,33 @@
 package com.pipo.backend.domain;
 
-import java.time.Instant;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-import com.pipo.backend.util.SecurityUtil;
+import lombok.*;
 import com.pipo.backend.util.constant.GenderEnum;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "users")
-public class User {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true, length = 50)
+    private String username;
+
     private String name;
 
     @NotBlank(message = "Email khong duoc de trong")
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @NotBlank(message = "Password khong duoc de trong")
+    @Column(nullable = false)
     private String password;
 
     private int age;
@@ -47,29 +40,11 @@ public class User {
     @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
 
-    private Instant createdAt;
-    private Instant updatedAt;
-    private String createdBy;
-    private String updatedBy;
-
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @PrePersist
-    public void handleBeforeCreate() {
-        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
-                ? SecurityUtil.getCurrentUserLogin().get()
-                : "";
-        this.createdAt = Instant.now();
-    }
-
-    @PreUpdate
-    public void handleBeforeUpdate() {
-        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
-                ? SecurityUtil.getCurrentUserLogin().get()
-                : "";
-        this.updatedAt = Instant.now();
-    }
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "system_role_id")
+    private Role systemRole;
 }

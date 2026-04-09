@@ -1,8 +1,10 @@
-package com.pipo.backend.entity;
+package com.pipo.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+
+import com.pipo.backend.domain.User;
 
 @Entity
 @Table(name = "project_members")
@@ -30,7 +32,7 @@ public class ProjectMember extends BaseEntity {
 
     @Column(name = "joined_at", updatable = false)
     private LocalDateTime joinedAt;
-    
+
     @Override
     @PrePersist
     public void handleBeforeCreate() {
