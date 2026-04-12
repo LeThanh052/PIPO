@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
 
 # Copy gradle wrapper and necessary files
@@ -19,7 +19,7 @@ COPY src ./src
 RUN ./gradlew bootJar -x test --no-daemon
 
 # --- Production Stage ---
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Copy the built jar from the builder stage

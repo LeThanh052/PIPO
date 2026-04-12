@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                         // prettier-ignore
                         authz
                                 .requestMatchers("/", "/login").permitAll()
+                                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/users").permitAll()
                                 .requestMatchers("/", "/api/v1/auth/login", "/api/v1/auth/refresh").permitAll()
                                 .anyRequest().authenticated())
                 // .securityMatcher("/users/**")

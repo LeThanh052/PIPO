@@ -1,0 +1,67 @@
+@host = http://localhost:8080
+@contentType = application/json
+
+### =======================================
+### AUTH API
+### =======================================
+
+### 0. Đăng ký tài khoản mới (Để test)
+POST {{host}}/api/v1/users
+Content-Type: {{contentType}}
+
+{
+    "username": "admin@gmail.com",
+    "email": "admin@gmail.com",
+    "password": "123",
+    "name": "Admin PIPO",
+    "age": 25,
+    "address": "Ha Noi",
+    "gender": "MALE"
+}
+
+### 1. Login (Thay đổi username/password cho đúng)
+# @name login
+POST {{host}}/api/v1/auth/login
+Content-Type: {{contentType}}
+
+{
+    "username": "admin@gmail.com",
+    "password": "123"
+}
+
+### Tự động lấy token từ response của request login ở trên
+@token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJwZXJtaXNzaW9uIjpbIlJPTEVfVVNFUl9DUkVBVEUiLCJST0xFX1VTRVJfVVBEQVRFIl0sImV4cCI6MTc4NDY0MzI5MSwiaWF0IjoxNzc2MDAzMjkxLCJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsIm5hbWUiOiJBZG1pbiBQSVBPIn19.6L4LwXKpezOsjKZrUespp9rpoLwfNALvW70OBcH-d_vLXwR2hv9L8OEO3DS3NXty1Wi4ibtOZ_-PoUP6F61jAw
+
+### 2. Get Account Info
+GET {{host}}/api/v1/auth/account
+Authorization: Bearer {{token}}
+
+### 3. Refresh Token
+GET {{host}}/api/v1/auth/refresh
+# Gửi kèm Cookie "refresh_token" được tự động lưu
+
+### 4. Logout
+POST {{host}}/api/v1/auth/logout
+Authorization: Bearer {{token}}
+
+
+### =======================================
+### USER API
+### =======================================
+
+### Lấy danh sách user (có phân trang)
+GET {{host}}/api/v1/users?page=1&size=10
+Authorization: Bearer {{token}}
+
+
+### Lấy 1 user theo ID (sửa id=1 thành id có thực)
+GET {{host}}/api/v1/users/1
+Authorization: Bearer {{token}}
+
+### =======================================
+### COMPANY API
+### =======================================
+
+### Lấy danh sách công ty
+GET {{host}}/api/v1/companies?page=1&size=10
+Authorization: Bearer {{token}}
